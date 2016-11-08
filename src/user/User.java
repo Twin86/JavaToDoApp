@@ -13,9 +13,7 @@ public class User {
     
     protected String name;
     protected int id;
-    
-    
-    
+        
     /*
     * @param String whit user name 
     */

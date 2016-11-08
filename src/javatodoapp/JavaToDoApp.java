@@ -19,10 +19,10 @@ public class JavaToDoApp {
      */
     public static void main(String[] args) {
         // TODO code
-        User u = new User("Sebastian");
         DataBase db = new DataBase();
-        System.out.print(u.getSelfInfo());
-        System.out.print(db.getSelf());
+        
+        db.dbConnect();
+
     }
     
 }

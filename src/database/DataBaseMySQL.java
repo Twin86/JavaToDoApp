@@ -9,16 +9,17 @@ import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.commons.configuration2.Configuration;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 import java.io.File;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.ResultSet;
 
 /**
  *
  * @author sebastian
  */
-public class DataBase {
+public class DataBaseMySQL {
 
     //static config path
     protected String config_file_path = new File("").getAbsolutePath() + "/src/resource/database.properties";
@@ -31,8 +32,11 @@ public class DataBase {
     //db handler
     public Connection conn = null;
 
-    //construct 
-    public DataBase() {
+     /**
+     * 
+     * @param null
+     */
+    public DataBaseMySQL() {
         Configurations configs = new Configurations();
         try {
             Configuration config = configs.properties(new File(config_file_path));
@@ -40,6 +44,8 @@ public class DataBase {
             dbHost = config.getString("database.host");
             dbUser = config.getString("database.user");
             dbPass = config.getString("database.password");
+            
+            dbConnect();
 
         } catch (ConfigurationException cex) {
             System.out.print(cex.getMessage());
@@ -48,15 +54,39 @@ public class DataBase {
 
     public void dbConnect() {
         System.out.println("Connecting to the database...");
-        //System.out.println("-----"+dbHost+"user="+ dbUser+"&password="+dbPass+"------");
         try {
-            conn = DriverManager.getConnection(dbHost,dbUser,dbPass);
+            conn = DriverManager.getConnection(dbHost, dbUser, dbPass);
             System.out.println("Database connected!");
         } catch (SQLException e) {
             throw new IllegalStateException("Cannot connect the database!", e);
         }
-        
-        //System.out.println("-----"+dbHost+"user="+ dbUser+"&password="+dbUser+"------");
+    }
+
+    public void get(String t_name) {
+
+        ResultSet res;
+        Statement stmt;
+
+        try {
+           
+            stmt = conn.createStatement();
+            res = stmt.executeQuery("SELECT * FROM "+t_name);
+           
+            while (res.next()) {
+                int id = res.getInt("id");
+                String title = res.getString("title");
+                System.out.println("Wartosć pod wybranym kluczem:"+title);
+                
+            }
+
+        // Now do something with the ResultSet ....
+        } catch (SQLException ex) {
+            // handle any errors
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+        }
+
     }
 
 }

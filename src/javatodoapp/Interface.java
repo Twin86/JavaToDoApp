@@ -4,48 +4,45 @@
  * and open the template in the editor.
  */
 package javatodoapp;
-
+import database.DataBaseMySQL;
+import java.io.File;
 /**
  *
  * @author sebastian
  */
 public class Interface {
+    //protected config path
+    protected String config_file_path = new File("").getAbsolutePath() + "/src/resource/database.properties";
+    protected String user;
+    protected String dbControler;
+    //database controlers
+    protected DataBaseMySQL mysql;
     
-    
-    
-    public boolean login(){
-    
+    public boolean login(String user,char[] pass) {
+        switch (dbControler) {
+            case "MySQL" :{
+                String[] myKeys = {"*"};
+                mysql.get(myKeys, "tasks");
+           }
+        } 
         return true;
     }
-    
-    public boolean logout(){
-        
-        return false;
+
+    public boolean logout() {
+
+        return true;
     }
-    
-    public void setDbControler(int choose){
-        
-    }
-    protected void printMenu(){
-        System.out.println("ToDo App\n");
-        System.out.println("******************\n");
-        System.out.println("MENU:\n");
-        System.out.println("------------------\n");
-        System.out.println("1:Logowanie \n");
-        System.out.println("2:Zadania \n");
-        System.out.println("------------------\n");
-        System.out.println("0:Wyloguj/Zamknij \n");
-    }
-    
-    public void menu(){
-        
-        int option = 0;
-        
-        printMenu();
-        
-        do {            
+
+    public void setDbControler(int choose) {
+        switch (choose) {
             
-        } while (option != 0);
+            default:{
+                dbControler = "MySQL";
+                mysql = new DataBaseMySQL(config_file_path);
+                break;
+            }
+        }    
     }
+    
     
 }

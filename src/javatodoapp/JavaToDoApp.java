@@ -4,10 +4,7 @@
  * and open the template in the editor.
  */
 package javatodoapp;
-import user.User;
-import database.Task;
-
-
+import gui.JavaToDoAppGui;
 
 /**
  *
@@ -15,15 +12,22 @@ import database.Task;
  */
 public class JavaToDoApp {
 
+    //protected
+    
+    
+    //private
+    private static JavaToDoAppGui app ;
+    
+    //public
+    
+    
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         // TODO code
-        User user = new User("Kowalski");
-        Interface app = new Interface();
-        app.menu();
-
+        app = new JavaToDoAppGui();
+        app.setVisible(true);
     }
     
 }

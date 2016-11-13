@@ -4,12 +4,11 @@
  * and open the template in the editor.
  */
 package database;
-
 /**
  *
  * @author sebastian
  */
-public class Task extends DataBaseMySQL{
+public class Task {
     
     protected String t_Name;
     protected String[] params = {"id","title","description"};
@@ -23,6 +22,6 @@ public class Task extends DataBaseMySQL{
     }
     
     public void get(){
-        get(t_Name);
+        //get(t_Name);
     }
 }

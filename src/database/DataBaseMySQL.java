@@ -36,10 +36,10 @@ public class DataBaseMySQL {
      * 
      * @param null
      */
-    public DataBaseMySQL() {
+    public DataBaseMySQL(String config_file) {
         Configurations configs = new Configurations();
         try {
-            Configuration config = configs.properties(new File(config_file_path));
+            Configuration config = configs.properties(new File(config_file));
 
             dbHost = config.getString("database.host");
             dbUser = config.getString("database.user");
@@ -62,20 +62,31 @@ public class DataBaseMySQL {
         }
     }
 
-    public void get(String t_name) {
+    public void get(String [] keys,String t_name) {
 
         ResultSet res;
         Statement stmt;
-
+        String query = "select ";
+        
+        for (int i = 0; i < keys.length; i++){
+            
+            query = query + keys[i] + " ,";
+        }
+        
+        query = query.replace(query.substring(query.length()-1), "");
+        query = query + "from "+ t_name;
+        
+        System.out.println(query);
+        
         try {
            
             stmt = conn.createStatement();
-            res = stmt.executeQuery("SELECT * FROM "+t_name);
+            res = stmt.executeQuery(query);
            
             while (res.next()) {
                 int id = res.getInt("id");
                 String title = res.getString("title");
-                System.out.println("Wartosć pod wybranym kluczem:"+title);
+                System.out.println("Get value from kay's :"+title);
                 
             }
 

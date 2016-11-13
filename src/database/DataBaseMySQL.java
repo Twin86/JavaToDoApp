@@ -32,8 +32,8 @@ public class DataBaseMySQL {
     //db handler
     public Connection conn = null;
 
-     /**
-     * 
+    /**
+     *
      * @param null
      */
     public DataBaseMySQL(String config_file) {
@@ -44,7 +44,7 @@ public class DataBaseMySQL {
             dbHost = config.getString("database.host");
             dbUser = config.getString("database.user");
             dbPass = config.getString("database.password");
-            
+
             dbConnect();
 
         } catch (ConfigurationException cex) {
@@ -62,41 +62,90 @@ public class DataBaseMySQL {
         }
     }
 
-    public void get(String [] keys,String t_name) {
+    public int getRowCount(ResultSet resultSet) {
+        if (resultSet == null) {
+            return 0;
+        }
+        try {
+            resultSet.last();
+            return resultSet.getRow();
+        } catch (SQLException exp) {
+            exp.printStackTrace();
+        } finally {
+            try {
+                resultSet.beforeFirst();
+            } catch (SQLException exp) {
+                exp.printStackTrace();
+            }
+        }
+        return 0;
+    }
+
+    public ResultSet get(String[] keys, String t_name) {
 
         ResultSet res;
         Statement stmt;
+
         String query = "select ";
-        
-        for (int i = 0; i < keys.length; i++){
-            
+
+        for (int i = 0; i < keys.length; i++) {
+
             query = query + keys[i] + " ,";
         }
-        
-        query = query.replace(query.substring(query.length()-1), "");
-        query = query + "from "+ t_name;
-        
+
+        query = query.replace(query.substring(query.length() - 1), "");
+        query = query + "from " + t_name;
+
         System.out.println(query);
-        
+
         try {
-           
+
             stmt = conn.createStatement();
             res = stmt.executeQuery(query);
-           
-            while (res.next()) {
-                int id = res.getInt("id");
-                String title = res.getString("title");
-                System.out.println("Get value from kay's :"+title);
-                
-            }
 
-        // Now do something with the ResultSet ....
+            return res;
+            /*
+             while (res.next()) {
+             int id = res.getInt("id");
+             String title = res.getString("title");
+             System.out.println("Get value from kay's :"+title);
+                
+             }
+             */
+
+            // Now do something with the ResultSet ....
         } catch (SQLException ex) {
             // handle any errors
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLState: " + ex.getSQLState());
             System.out.println("VendorError: " + ex.getErrorCode());
         }
+
+        return res = null;
+
+    }
+
+    public ResultSet get(String quary) {
+
+        ResultSet res;
+        Statement stmt;
+
+        try {
+
+            stmt = conn.createStatement();
+            res = stmt.executeQuery(quary);
+
+            return res;
+
+            // Now do something with the ResultSet ....
+        } catch (SQLException ex) {
+            // handle any errors
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+        }
+
+        return res = null;
 
     }
 

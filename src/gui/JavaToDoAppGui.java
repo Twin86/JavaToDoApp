@@ -21,6 +21,7 @@ public class JavaToDoAppGui extends javax.swing.JFrame {
      */
     public JavaToDoAppGui() {
         initComponents();
+        jPasswordField1UserPass.enableInputMethods(true);
         connector = new Interface();
         connector.setDbControler(1);
     }
@@ -42,6 +43,8 @@ public class JavaToDoAppGui extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1TaskViews = new javax.swing.JTable();
         jButton2AddTask = new javax.swing.JButton();
+        jLabel1Msg = new javax.swing.JLabel();
+        jLabel1MsgContent = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -74,6 +77,8 @@ public class JavaToDoAppGui extends javax.swing.JFrame {
         jButton2AddTask.setText("Dodaj");
         jButton2AddTask.setEnabled(false);
 
+        jLabel1Msg.setText("Komunikaty :");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -84,15 +89,22 @@ public class JavaToDoAppGui extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(7, 7, 7)
-                        .addComponent(jLabel1TextLogin)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1User, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel2TextPass)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPasswordField1UserPass, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(7, 7, 7)
+                                .addComponent(jLabel1TextLogin)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField1User, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel2TextPass)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPasswordField1UserPass, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel1Msg)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel1MsgContent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(12, 12, 12)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButton2AddTask, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton1Login, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
@@ -109,7 +121,10 @@ public class JavaToDoAppGui extends javax.swing.JFrame {
                     .addComponent(jPasswordField1UserPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1Login))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2AddTask)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2AddTask)
+                    .addComponent(jLabel1Msg)
+                    .addComponent(jLabel1MsgContent))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -120,7 +135,16 @@ public class JavaToDoAppGui extends javax.swing.JFrame {
 
     private void jButton1LoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1LoginActionPerformed
         // TODO add your handling code here:
-        connector.login(jTextField1User.getText(), jPasswordField1UserPass.getPassword());
+        if(connector.login(jTextField1User.getText(), jPasswordField1UserPass.getPassword())){
+            jLabel1MsgContent.setText("udane logowanie!");
+            
+            jButton1Login.setEnabled(false);
+            jTextField1User.setEnabled(false);
+            jPasswordField1UserPass.setEnabled(false);
+            jButton2AddTask.setEnabled(true);
+        }else{
+            jLabel1MsgContent.setText("błędne logowanie!");
+        }
         
     }//GEN-LAST:event_jButton1LoginActionPerformed
 
@@ -164,6 +188,8 @@ public class JavaToDoAppGui extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1Login;
     private javax.swing.JButton jButton2AddTask;
+    private javax.swing.JLabel jLabel1Msg;
+    private javax.swing.JLabel jLabel1MsgContent;
     private javax.swing.JLabel jLabel1TextLogin;
     private javax.swing.JLabel jLabel2TextPass;
     private javax.swing.JPasswordField jPasswordField1UserPass;

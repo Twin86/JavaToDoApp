@@ -142,6 +142,10 @@ public class JavaToDoAppGui extends javax.swing.JFrame {
             jTextField1User.setEnabled(false);
             jPasswordField1UserPass.setEnabled(false);
             jButton2AddTask.setEnabled(true);
+            
+            connector.updateTable(jTable1TaskViews, "tasks");
+            
+            
         }else{
             jLabel1MsgContent.setText("błędne logowanie!");
         }

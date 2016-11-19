@@ -46,6 +46,10 @@ public class Interface {
         switch (dbControler) {
             case "MySQL": {
 
+                if (mysql.conn == null) {
+                    mysql.dbConnect();
+                }
+
                 ResultSet result;
 
                 result = mysql.get("select id,email,pass from users where email ='" + email + "' and is_delete <> 1");
@@ -90,8 +94,25 @@ public class Interface {
     }
 
     public boolean logout() {
+        switch (dbControler) {
 
-        return true;
+            default: {
+                try {
+
+                    mysql.conn.close();
+                    mysql.conn = null;
+                    return true;
+
+                } catch (Exception e) {
+
+                    System.out.println("Błąd " + e.toString());
+                }
+
+                break;
+            }
+        }
+
+        return false;
     }
 
     public void setDbControler(int choose) {
@@ -106,7 +127,7 @@ public class Interface {
 
     public void updateTable(JTable table, String t_name) {
 
-        ResultSet rs = getData("select * from " + t_name);
+        ResultSet rs = getData("select * from " + t_name + " where id=" + user[1][1]);
 
         //To remove previously added rows
         while (table.getRowCount() > 0) {
@@ -125,6 +146,11 @@ public class Interface {
             System.out.println("Błąd " + e.toString());
         }
 
+    }
+
+    public boolean add() {
+        
+        return false;
     }
 
 }
